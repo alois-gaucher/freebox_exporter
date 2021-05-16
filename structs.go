@@ -203,6 +203,47 @@ type system struct {
 	} `json:"result"`
 }
 
+type systemV6 struct {
+	apiResponse
+	Result struct {
+		Mac       string        `json:"mac"`
+		Sensors   []idNameValue `json:"sensors"`
+		ModelInfo struct {
+			NetOperator        string   `json:"net_operator"`
+			SupportedLanguages []string `json:"supported_languages"`
+			HasDsl             bool     `json:"has_dsl"`
+			HasDect            bool     `json:"has_dect"`
+			CustomerHddSlots   int      `json:"customer_hdd_slots"`
+			WifiType           string   `json:"wifi_type"`
+			HasHomeAutomation  bool     `json:"has_home_automation"`
+			PrettyName         string   `json:"pretty_name"`
+			Name               string   `json:"name"`
+			HasLanSfp          bool     `json:"has_lan_sfp"`
+			InternalHddSize    int      `json:"internal_hdd_size"`
+			DefaultLanguage    string   `json:"default_language"`
+			HasVm              bool     `json:"has_vm"`
+			HasExpansions      bool     `json:"has_expansions"`
+		} `json:"model_info"`
+		Fans       []idNameValue `json:"fans"`
+		Expansions []struct {
+			Type      string `json:"type"`
+			Present   bool   `json:"present"`
+			Slot      int    `json:"slot"`
+			ProbeDone bool   `json:"probe_done"`
+			Supported bool   `json:"supported"`
+			Bundle    string `json:"bundle"`
+		} `json:"expansions"`
+		BoardName        string `json:"board_name"`
+		DiskStatus       string `json:"disk_status"`
+		Uptime           string `json:"uptime"`
+		UptimeVal        int    `json:"uptime_val"`
+		UserMainStorage  string `json:"user_main_storage"`
+		BoxAuthenticated bool   `json:"box_authenticated"`
+		Serial           string `json:"serial"`
+		FirmwareVersion  string `json:"firmware_version"`
+	} `json:"result"`
+}
+
 // https://dev.freebox.fr/sdk/os/wifi/
 type wifiAccessPoint struct {
 	Name string `json:"name,omitempty"`

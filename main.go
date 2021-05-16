@@ -21,6 +21,7 @@ var (
 	listen    string
 	debug     bool
 	fiber     bool
+	v6        bool
 )
 
 func init() {
@@ -28,6 +29,7 @@ func init() {
 	flag.StringVar(&listen, "listen", ":10001", "Prometheus metrics port")
 	flag.BoolVar(&debug, "debug", false, "Debug mode")
 	flag.BoolVar(&fiber, "fiber", false, "Turn on if you're using a fiber Freebox")
+	flag.BoolVar(&v6, "v6", false, "Use v6+ system API endpoint")
 }
 
 func main() {
@@ -81,6 +83,12 @@ func main() {
 	mySystemRequest := &postRequest{
 		method: "GET",
 		url:    mafreebox + "api/v4/system/",
+		header: "X-Fbx-App-Auth",
+	}
+
+	mySystemV6Request := &postRequest{
+		method: "GET",
+		url:    mafreebox + "api/v6/system/",
 		header: "X-Fbx-App-Auth",
 	}
 
@@ -225,20 +233,38 @@ func main() {
 			}
 
 			// system metrics
-			systemStats, err := getSystem(myAuthInfo, mySystemRequest, &mySessionToken)
-			if err != nil {
-				log.Printf("An error occured with System metrics: %v", err)
+			if v6 {
+				systemStats, err := getSystemV6(myAuthInfo, mySystemV6Request, &mySessionToken)
+				if err != nil {
+					log.Printf("An error occured with System metrics: %v", err)
+				}
+
+				for _, sensor := range systemStats.Result.Sensors {
+					systemTempGauges.WithLabelValues(sensor.Name).Set(float64(sensor.Value))
+				}
+				for _, fan := range systemStats.Result.Fans {
+					systemFanGauges.WithLabelValues(fan.Name).Set(float64(fan.Value))
+				}
+
+				systemUptimeGauges.
+					WithLabelValues(systemStats.Result.FirmwareVersion).
+					Set(float64(systemStats.Result.UptimeVal))
+			} else {
+				systemStats, err := getSystem(myAuthInfo, mySystemRequest, &mySessionToken)
+				if err != nil {
+					log.Printf("An error occured with System metrics: %v", err)
+				}
+
+				systemTempGauges.WithLabelValues("Température CPU B").Set(float64(systemStats.Result.TempCpub))
+				systemTempGauges.WithLabelValues("Température CPU M").Set(float64(systemStats.Result.TempCpum))
+				systemTempGauges.WithLabelValues("Température Switch").Set(float64(systemStats.Result.TempSW))
+				systemTempGauges.WithLabelValues("Disque dur").Set(float64(systemStats.Result.TempHDD))
+				systemFanGauges.WithLabelValues("Ventilateur 1").Set(float64(systemStats.Result.FanRPM))
+
+				systemUptimeGauges.
+					WithLabelValues(systemStats.Result.FirmwareVersion).
+					Set(float64(systemStats.Result.UptimeVal))
 			}
-
-			systemTempGauges.WithLabelValues("Température CPU B").Set(float64(systemStats.Result.TempCpub))
-			systemTempGauges.WithLabelValues("Température CPU M").Set(float64(systemStats.Result.TempCpum))
-			systemTempGauges.WithLabelValues("Température Switch").Set(float64(systemStats.Result.TempSW))
-			systemTempGauges.WithLabelValues("Disque dur").Set(float64(systemStats.Result.TempHDD))
-			systemFanGauges.WithLabelValues("Ventilateur 1").Set(float64(systemStats.Result.FanRPM))
-
-			systemUptimeGauges.
-				WithLabelValues(systemStats.Result.FirmwareVersion).
-				Set(float64(systemStats.Result.UptimeVal))
 
 			// wifi metrics
 			wifiStats, err := getWifi(myAuthInfo, myWifiRequest, &mySessionToken)

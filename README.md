@@ -12,6 +12,7 @@ A Prometheus exporter for Freebox stats
 - `-listen`: port for Prometheus metrics (default :10001)
 - `-debug`: turn on debug mode
 - `-fiber`: turn off DSL metric for fiber Freebox
+- `-v6`: use newer v6 API for getting system metrics
 
 ## Preview
 

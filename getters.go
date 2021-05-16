@@ -52,6 +52,15 @@ func getSystem(authInf *authInfo, pr *postRequest, xSessionToken *string) (syste
 	return systemResp, nil
 }
 
+func getSystemV6(authInf *authInfo, pr *postRequest, xSessionToken *string) (systemV6, error) {
+	systemResp := systemV6{}
+	err := getApiData(authInf, pr, xSessionToken, &systemResp, nil)
+	if err != nil {
+		return systemV6{}, err
+	}
+	return systemResp, nil
+}
+
 func getWifi(authInf *authInfo, pr *postRequest, xSessionToken *string) (wifi, error) {
 	wifiResp := wifi{}
 	err := getApiData(authInf, pr, xSessionToken, &wifiResp, nil)
