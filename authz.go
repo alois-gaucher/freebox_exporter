@@ -225,3 +225,29 @@ func getSessToken(token string, authInf *authInfo, xSessionToken *string) (strin
 	*xSessionToken = t.Result.SessionToken
 	return t.Result.SessionToken, nil
 }
+
+// setFreeboxToken
+func setFreeboxToken(authInf *authInfo, xSessionToken *string) (string, error) {
+	token := os.Getenv("FREEBOX_TOKEN")
+
+	if token == "" {
+		var err error
+		*xSessionToken, err = getToken(authInf, xSessionToken)
+		if err != nil {
+			return "", err
+		}
+		token = *xSessionToken
+	}
+
+	if *xSessionToken == "" {
+		var err error
+		*xSessionToken, err = getSessToken(token, authInf, xSessionToken)
+		if err != nil {
+			log.Fatal(err)
+		}
+		token = *xSessionToken
+	}
+
+	return token, nil
+
+}

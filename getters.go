@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -39,31 +38,6 @@ func (l *lan) status() error {
 		return errors.New("LAN: The API returns an unknown error_code: " + l.ErrorCode)
 	}
 	return apiErrors[l.ErrorCode]
-}
-
-func setFreeboxToken(authInf *authInfo, xSessionToken *string) (string, error) {
-	token := os.Getenv("FREEBOX_TOKEN")
-
-	if token == "" {
-		var err error
-		*xSessionToken, err = getToken(authInf, xSessionToken)
-		if err != nil {
-			return "", err
-		}
-		token = *xSessionToken
-	}
-
-	if *xSessionToken == "" {
-		var err error
-		*xSessionToken, err = getSessToken(token, authInf, xSessionToken)
-		if err != nil {
-			log.Fatal(err)
-		}
-		token = *xSessionToken
-	}
-
-	return token, nil
-
 }
 
 func getConnectionXdsl(authInf *authInfo, pr *postRequest, xSessionToken *string) (connectionXdsl, error) {
