@@ -84,7 +84,7 @@ func TestGetTrackID(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		myTrack := track{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 		myTrack.Result.AppToken = "IOI"
 		myTrack.Result.TrackID = 101
@@ -119,56 +119,56 @@ func TestGetGranted(t *testing.T) {
 		switch r.RequestURI {
 		case "/unknown/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/unknown/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "unknown"
 			result, _ := json.Marshal(myGrant)
 			fmt.Fprintln(w, string(result))
 		case "/timeout/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/timeout/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "timeout"
 			result, _ := json.Marshal(myGrant)
 			fmt.Fprintln(w, string(result))
 		case "/denied/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/denied/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "denied"
 			result, _ := json.Marshal(myGrant)
 			fmt.Fprintln(w, string(result))
 		case "/granted/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/granted/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "granted"
 			result, _ := json.Marshal(myGrant)
@@ -213,7 +213,7 @@ func TestGetChallenge(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		myChall := &challenge{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 		myChall.Result.Challenge = "foobar"
 		result, _ := json.Marshal(myChall)
@@ -252,7 +252,7 @@ func TestGetSession(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		myToken := &sessionToken{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 		myToken.Result.Challenge = "foobar"
 		result, _ := json.Marshal(myToken)
@@ -287,28 +287,28 @@ func TestGetToken(t *testing.T) {
 		switch r.RequestURI {
 		case "/login":
 			myChall := &challenge{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myChall.Result.Challenge = "foobar"
 			result, _ := json.Marshal(myChall)
 			fmt.Fprintln(w, string(result))
 		case "/session":
 			myToken := sessionToken{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myToken.Result.SessionToken = "foobar"
 			result, _ := json.Marshal(myToken)
 			fmt.Fprintln(w, string(result))
 		case "/granted/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/granted/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "granted"
 			result, _ := json.Marshal(myGrant)
@@ -369,7 +369,7 @@ func TestGetSessToken(t *testing.T) {
 		switch r.RequestURI {
 		case "/login":
 			myChall := &challenge{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myChall.Result.Challenge = "foobar"
 			result, _ := json.Marshal(myChall)

@@ -18,28 +18,28 @@ func TestSetFreeboxToken(t *testing.T) {
 		switch r.RequestURI {
 		case "/login":
 			myChall := &challenge{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myChall.Result.Challenge = "foobar"
 			result, _ := json.Marshal(myChall)
 			fmt.Fprintln(w, string(result))
 		case "/session":
 			myToken := sessionToken{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myToken.Result.SessionToken = "foobar"
 			result, _ := json.Marshal(myToken)
 			fmt.Fprintln(w, string(result))
 		case "/granted/":
 			myTrack := track{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myTrack.Result.TrackID = 101
 			result, _ := json.Marshal(myTrack)
 			fmt.Fprintln(w, string(result))
 		case "/granted/101":
 			myGrant := grant{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myGrant.Result.Status = "granted"
 			result, _ := json.Marshal(myGrant)
@@ -90,7 +90,7 @@ func TestGetDsl(t *testing.T) {
 		switch r.RequestURI {
 		case "/good":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myRRD.Result.Data = []map[string]int64{
 				{
@@ -104,14 +104,16 @@ func TestGetDsl(t *testing.T) {
 			fmt.Fprintln(w, string(result))
 		case "/error":
 			myRRD := rrd{
-				Success:   true,
-				ErrorCode: "insufficient_rights",
+				apiResponse: apiResponse{
+					Success:   true,
+					ErrorCode: "insufficient_rights",
+				},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
 		case "/null":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
@@ -177,7 +179,7 @@ func TestGetTemp(t *testing.T) {
 		switch r.RequestURI {
 		case "/good":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myRRD.Result.Data = []map[string]int64{
 				{
@@ -192,14 +194,16 @@ func TestGetTemp(t *testing.T) {
 			fmt.Fprintln(w, string(result))
 		case "/error":
 			myRRD := rrd{
-				Success:   true,
-				ErrorCode: "denied_from_external_ip",
+				apiResponse: apiResponse{
+					Success:   true,
+					ErrorCode: "denied_from_external_ip",
+				},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
 		case "/null":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
@@ -265,7 +269,7 @@ func TestGetNet(t *testing.T) {
 		switch r.RequestURI {
 		case "/good":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myRRD.Result.Data = []map[string]int64{
 				{
@@ -281,14 +285,16 @@ func TestGetNet(t *testing.T) {
 			fmt.Fprintln(w, string(result))
 		case "/error":
 			myRRD := rrd{
-				Success:   true,
-				ErrorCode: "new_apps_denied",
+				apiResponse: apiResponse{
+					Success:   true,
+					ErrorCode: "new_apps_denied",
+				},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
 		case "/null":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
@@ -354,7 +360,7 @@ func TestGetSwitch(t *testing.T) {
 		switch r.RequestURI {
 		case "/good":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myRRD.Result.Data = []map[string]int64{
 				{
@@ -372,14 +378,16 @@ func TestGetSwitch(t *testing.T) {
 			fmt.Fprintln(w, string(result))
 		case "/error":
 			myRRD := rrd{
-				Success:   true,
-				ErrorCode: "apps_denied",
+				apiResponse: apiResponse{
+					Success:   true,
+					ErrorCode: "apps_denied",
+				},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
 		case "/null":
 			myRRD := rrd{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			result, _ := json.Marshal(myRRD)
 			fmt.Fprintln(w, string(result))
@@ -445,7 +453,7 @@ func TestGetLan(t *testing.T) {
 		switch r.RequestURI {
 		case "/good":
 			myLan := lan{
-				Success: true,
+				apiResponse: apiResponse{Success: true},
 			}
 			myLan.Result = []lanHost{
 				{
@@ -461,8 +469,10 @@ func TestGetLan(t *testing.T) {
 			fmt.Fprintln(w, string(result))
 		case "/error":
 			myLan := lan{
-				Success:   true,
-				ErrorCode: "ratelimited",
+				apiResponse: apiResponse{
+					Success:   true,
+					ErrorCode: "ratelimited",
+				},
 			}
 			result, _ := json.Marshal(myLan)
 			fmt.Fprintln(w, string(result))
@@ -513,7 +523,7 @@ func TestGetSystem(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		mySys := system{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 		mySys.Result.FanRPM = 666
 		mySys.Result.TempCpub = 81
@@ -577,7 +587,7 @@ func TestGetWifi(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		myWifi := wifi{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 		myAP := wifiAccessPoint{
 			Name: "AP1",
@@ -620,7 +630,7 @@ func TestGetWifiStations(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		myWifiStations := wifiStations{
-			Success: true,
+			apiResponse: apiResponse{Success: true},
 		}
 
 		myStation := wifiStation{

@@ -2,25 +2,30 @@ package main
 
 import "bufio"
 
+type apiResponse struct {
+	Success   bool   `json:"success"`
+	ErrorCode string `json:"error_code,omitempty"`
+}
+
 type track struct {
-	Success bool `json:"success"`
-	Result  struct {
+	apiResponse
+	Result struct {
 		AppToken string `json:"app_token"`
 		TrackID  int    `json:"track_id"`
 	} `json:"result"`
 }
 
 type grant struct {
-	Success bool `json:"success"`
-	Result  struct {
+	apiResponse
+	Result struct {
 		Status    string `json:"status"`
 		Challenge string `json:"challenge"`
 	} `json:"result"`
 }
 
 type challenge struct {
-	Success bool `json:"success"`
-	Result  struct {
+	apiResponse
+	Result struct {
 		LoggedIN  bool   `json:"logged_in,omitempty"`
 		Challenge string `json:"challenge"`
 	} `json:"result"`
@@ -32,11 +37,10 @@ type session struct {
 }
 
 type sessionToken struct {
-	Msg       string `json:"msg,omitempty"`
-	Success   bool   `json:"success"`
-	UID       string `json:"uid,omitempty"`
-	ErrorCode string `json:"error_code,omitempty"`
-	Result    struct {
+	apiResponse
+	Msg    string `json:"msg,omitempty"`
+	UID    string `json:"uid,omitempty"`
+	Result struct {
 		SessionToken string `json:"session_token,omitempty"`
 		Challenge    string `json:"challenge"`
 		Permissions  struct {
@@ -54,21 +58,20 @@ type sessionToken struct {
 }
 
 type rrd struct {
-	UID     string `json:"uid,omitempty"`
-	Success bool   `json:"success"`
-	Msg     string `json:"msg,omitempty"`
-	Result  struct {
+	apiResponse
+	UID    string `json:"uid,omitempty"`
+	Msg    string `json:"msg,omitempty"`
+	Result struct {
 		DateStart int                `json:"date_start,omitempty"`
 		DateEnd   int                `json:"date_end,omitempty"`
 		Data      []map[string]int64 `json:"data,omitempty"`
 	} `json:"result"`
-	ErrorCode string `json:"error_code"`
 }
 
 // https://dev.freebox.fr/sdk/os/connection/
 type connectionXdsl struct {
-	Success bool `json:"success"`
-	Result  struct {
+	apiResponse
+	Result struct {
 		Status struct {
 			Status     string `json:"status"`
 			Modulation string `json:"modulation"`
@@ -132,8 +135,8 @@ type database struct {
 
 // https://dev.freebox.fr/sdk/os/freeplug/
 type freeplug struct {
-	Success bool              `json:"success"`
-	Result  []freeplugNetwork `json:"result"`
+	apiResponse
+	Result []freeplugNetwork `json:"result"`
 }
 
 type freeplugNetwork struct {
@@ -168,9 +171,8 @@ type lanHost struct {
 }
 
 type lan struct {
-	Success   bool      `json:"success"`
-	Result    []lanHost `json:"result"`
-	ErrorCode string    `json:"error_code"`
+	apiResponse
+	Result []lanHost `json:"result"`
 }
 
 type idNameValue struct {
@@ -181,8 +183,8 @@ type idNameValue struct {
 
 // https://dev.freebox.fr/sdk/os/system/
 type system struct {
-	Success bool `json:"success"`
-	Result  struct {
+	apiResponse
+	Result struct {
 		Mac              string `json:"mac,omitempty"`
 		FanRPM           int    `json:"fan_rpm,omitempty"`
 		BoxFlavor        string `json:"box_flavor,omitempty"`
@@ -208,8 +210,8 @@ type wifiAccessPoint struct {
 }
 
 type wifi struct {
-	Success bool              `json:"success"`
-	Result  []wifiAccessPoint `json:"result,omitempty"`
+	apiResponse
+	Result []wifiAccessPoint `json:"result,omitempty"`
 }
 
 type wifiStation struct {
@@ -226,8 +228,8 @@ type wifiStation struct {
 }
 
 type wifiStations struct {
-	Success bool          `json:"success"`
-	Result  []wifiStation `json:"result,omitempty"`
+	apiResponse
+	Result []wifiStation `json:"result,omitempty"`
 }
 
 type app struct {
@@ -260,8 +262,8 @@ type postRequest struct {
 
 // https://dev.freebox.fr/sdk/os/vpn/
 type vpnServer struct {
-	Success bool `json:"success"`
-	Result  []struct {
+	apiResponse
+	Result []struct {
 		RxBytes       int    `json:"rx_bytes,omitempty"`
 		Authenticated bool   `json:"authenticated,omitempty"`
 		TxBytes       int    `json:"tx_bytes,omitempty"`
