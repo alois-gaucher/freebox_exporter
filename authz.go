@@ -219,7 +219,7 @@ func getSessToken(token string, authInf *authInfo, xSessionToken *string) (strin
 	if err != nil {
 		return "", err
 	}
-	if t.Success == false {
+	if !t.Success {
 		return "", errors.New(t.Msg)
 	}
 	*xSessionToken = t.Result.SessionToken
