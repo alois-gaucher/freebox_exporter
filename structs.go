@@ -122,7 +122,7 @@ type connectionXdsl struct {
 			Snr        int    `json:"snr"`
 			Snr10      int    `json:"snr_10"`
 		} `json:"up"`
-	}
+	} `json:"result"`
 }
 
 type database struct {
@@ -200,7 +200,7 @@ type system struct {
 		BoxAuthenticated bool   `json:"box_authenticated,omitempty"`
 		Serial           string `json:"serial,omitempty"`
 		FirmwareVersion  string `json:"firmware_version,omitempty"`
-	}
+	} `json:"result"`
 }
 
 // https://dev.freebox.fr/sdk/os/wifi/
