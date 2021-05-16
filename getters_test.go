@@ -510,7 +510,7 @@ func TestGetLan(t *testing.T) {
 		}
 	}
 
-	lanAvailable, err = getLan(ai, errorPR, &mySessionToken)
+	_, err = getLan(ai, errorPR, &mySessionToken)
 	if err.Error() != "too many auth error have been made from your IP" {
 		t.Error("Expected too many auth error have been made from your IP, but got", err)
 	}
