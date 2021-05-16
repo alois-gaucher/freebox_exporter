@@ -142,6 +142,7 @@ var (
 		[]string{
 			"name", // hostname
 			"vendor",
+			"mac",
 			"ip",
 		},
 	)
@@ -178,6 +179,7 @@ var (
 	// wifi
 	wifiLabels = []string{
 		"access_point",
+		"mac",
 		"hostname",
 		"state",
 	}

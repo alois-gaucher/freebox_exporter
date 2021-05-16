@@ -168,6 +168,10 @@ type lanHost struct {
 	PrimaryName string `json:"primary_name,omitempty"`
 	Vendor_name string `json:"vendor_name,omitempty"`
 	L3c         []l3c  `json:"l3connectivities,omitempty"`
+	L2Ident     struct {
+		ID   string `json:"id,omitempty"`
+		Type string `json:"type,omitempty"`
+	} `json:"l2ident,omitempty"`
 }
 
 type lan struct {
