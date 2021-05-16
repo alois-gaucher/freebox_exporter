@@ -66,14 +66,6 @@ func setFreeboxToken(authInf *authInfo, xSessionToken *string) (string, error) {
 
 }
 
-func newPostRequest() *postRequest {
-	return &postRequest{
-		method: "POST",
-		url:    mafreebox + "api/v4/rrd/",
-		header: "X-Fbx-App-Auth",
-	}
-}
-
 func getConnectionXdsl(authInf *authInfo, pr *postRequest, xSessionToken *string) (connectionXdsl, error) {
 	client := http.Client{}
 	req, err := http.NewRequest(pr.method, pr.url, nil)

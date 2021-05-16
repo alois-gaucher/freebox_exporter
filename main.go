@@ -54,7 +54,11 @@ func main() {
 		myReader: bufio.NewReader(os.Stdin),
 	}
 
-	myPostRequest := newPostRequest()
+	myPostRequest := &postRequest{
+		method: "POST",
+		url:    mafreebox + "api/v4/rrd/",
+		header: "X-Fbx-App-Auth",
+	}
 
 	myConnectionXdslRequest := &postRequest{
 		method: "GET",
