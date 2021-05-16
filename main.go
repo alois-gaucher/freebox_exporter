@@ -218,9 +218,9 @@ func main() {
 					Ip = ""
 				}
 				if v.Reachable {
-					lanReachableGauges.With(prometheus.Labels{"name": v.PrimaryName, "vendor":v.Vendor_name, "ip": Ip}).Set(float64(1))
+					lanReachableGauges.With(prometheus.Labels{"name": v.PrimaryName, "vendor": v.Vendor_name, "ip": Ip}).Set(float64(1))
 				} else {
-					lanReachableGauges.With(prometheus.Labels{"name": v.PrimaryName, "vendor":v.Vendor_name, "ip": Ip}).Set(float64(0))
+					lanReachableGauges.With(prometheus.Labels{"name": v.PrimaryName, "vendor": v.Vendor_name, "ip": Ip}).Set(float64(0))
 				}
 			}
 

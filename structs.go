@@ -157,7 +157,7 @@ type freeplugMember struct {
 
 // https://dev.freebox.fr/sdk/os/lan/
 type l3c struct {
-	Addr        string `json:"addr,omitempty"`
+	Addr string `json:"addr,omitempty"`
 }
 
 type lanHost struct {
