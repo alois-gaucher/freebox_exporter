@@ -320,3 +320,56 @@ type vpnServer struct {
 		LocalIP       string `json:"local_ip,omitempty"`
 	} `json:"result,omitempty"`
 }
+
+type switchStatus struct {
+	apiResponse
+	Result []struct {
+		ID      int    `json:"id,omitempty"`
+		Name    string `json:"name,omitempty"`
+		Duplex  string `json:"duplex,omitempty"`
+		Link    string `json:"link,omitempty"`
+		Mode    string `json:"mode,omitempty"`
+		Speed   string `json:"speed,omitempty"`
+		RrdId   string `json:"rrd_id,omitempty"`
+		MacList []struct {
+			Mac      string `json:"mac,omitempty"`
+			Hostname string `json:"hostname"`
+		} `json:"mac_list,omitempty"`
+	} `json:"result,omitempty"`
+}
+
+type switchPort struct {
+	apiResponse
+	Result struct {
+		RxBadBytes         int `json:"rx_bad_bytes,omitempty"`
+		RxBroadcastPackets int `json:"rx_broadcast_packets,omitempty"`
+		RxBytesRate        int `json:"rx_bytes_rate,omitempty"`
+		RxErrPackets       int `json:"rx_err_packets,omitempty"`
+		RxFcsPackets       int `json:"rx_fcs_packets,omitempty"`
+		RxFragmentsPackets int `json:"rx_fragments_packets,omitempty"`
+		RxGoodBytes        int `json:"rx_good_bytes,omitempty"`
+		RxGoodPackets      int `json:"rx_good_packets,omitempty"`
+		RxJabberPackets    int `json:"rx_jabber_packets,omitempty"`
+		RxMulticastPackets int `json:"rx_multicast_packets,omitempty"`
+		RxOversizePackets  int `json:"rx_oversize_packets,omitempty"`
+		RxPacketsRate      int `json:"rx_packets_rate,omitempty"`
+		RxPause            int `json:"rx_pause,omitempty"`
+		RxUndersizePackets int `json:"rx_undersize_packets,omitempty"`
+		RxUnicastPackets   int `json:"rx_unicast_packets,omitempty"`
+		TxBroadcastPackets int `json:"tx_broadcast_packets,omitempty"`
+		TxBytes            int `json:"tx_bytes,omitempty"`
+		TxBytesRate        int `json:"tx_bytes_rate,omitempty"`
+		TxCollisions       int `json:"tx_collisions,omitempty"`
+		TxDeferred         int `json:"tx_deferred,omitempty"`
+		TxExcessive        int `json:"tx_excessive,omitempty"`
+		TxFcs              int `json:"tx_fcs,omitempty"`
+		TxLate             int `json:"tx_late,omitempty"`
+		TxMulticastPackets int `json:"tx_multicast_packets,omitempty"`
+		TxMultiple         int `json:"tx_multiple,omitempty"`
+		TxPackets          int `json:"tx_packets,omitempty"`
+		TxPacketsRate      int `json:"tx_packets_rate,omitempty"`
+		TxPause            int `json:"tx_pause,omitempty"`
+		TxSingle           int `json:"tx_single,omitempty"`
+		TxUnicastPackets   int `json:"tx_unicast_packets,omitempty"`
+	} `json:"result,omitempty"`
+}

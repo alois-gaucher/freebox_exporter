@@ -104,6 +104,12 @@ func main() {
 		header: "X-Fbx-App-Auth",
 	}
 
+	mySwitchStatusRequest := &postRequest{
+		method: "GET",
+		url:    mafreebox + "api/v8/switch/status/",
+		header: "X-Fbx-App-Auth",
+	}
+
 	var mySessionToken string
 
 	go func() {
@@ -300,6 +306,61 @@ func main() {
 			for _, connection := range getVpnServerResult.Result {
 				vpnServerConnectionsList.With(prometheus.Labels{"user": connection.User, "vpn": connection.Vpn, "src_ip": connection.SrcIP, "local_ip": connection.LocalIP, "name": "rx_bytes"}).Set(float64(connection.RxBytes))
 				vpnServerConnectionsList.With(prometheus.Labels{"user": connection.User, "vpn": connection.Vpn, "src_ip": connection.SrcIP, "local_ip": connection.LocalIP, "name": "tx_bytes"}).Set(float64(connection.TxBytes))
+			}
+
+			// Switch status
+			switchStats, err := getSwitchStatus(myAuthInfo, mySwitchStatusRequest, &mySessionToken)
+			if err != nil {
+				log.Printf("An error occured with switch metrics: %v", err)
+			}
+			for _, port := range switchStats.Result {
+				if port.Link == "up" {
+					mySwitchPortRequest := &postRequest{
+						method: "GET",
+						url:    mafreebox + "api/v8/switch/port/" + strconv.Itoa(port.ID) + "/stats",
+						header: "X-Fbx-App-Auth",
+					}
+					switchPortStats, err := getSwitchPort(myAuthInfo, mySwitchPortRequest, &mySessionToken)
+					if err != nil {
+						log.Printf("An error occured with switch port metrics: %v", err)
+					}
+
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "broadcast", "error": "0"}).Set(float64(switchPortStats.Result.RxBroadcastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "multicast", "error": "0"}).Set(float64(switchPortStats.Result.RxMulticastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "unicast", "error": "0"}).Set(float64(switchPortStats.Result.RxUnicastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "broadcast", "error": "0"}).Set(float64(switchPortStats.Result.TxBroadcastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "multicast", "error": "0"}).Set(float64(switchPortStats.Result.TxMulticastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "unicast", "error": "0"}).Set(float64(switchPortStats.Result.TxUnicastPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "err", "error": "1"}).Set(float64(switchPortStats.Result.RxErrPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "fcs", "error": "1"}).Set(float64(switchPortStats.Result.RxFcsPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "fragment", "error": "1"}).Set(float64(switchPortStats.Result.RxFragmentsPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "jabber", "error": "1"}).Set(float64(switchPortStats.Result.RxJabberPackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "oversize", "error": "1"}).Set(float64(switchPortStats.Result.RxOversizePackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "undersize", "error": "1"}).Set(float64(switchPortStats.Result.RxUndersizePackets))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "collision", "error": "1"}).Set(float64(switchPortStats.Result.TxCollisions))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "deferred", "error": "1"}).Set(float64(switchPortStats.Result.TxDeferred))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "excessive", "error": "1"}).Set(float64(switchPortStats.Result.TxExcessive))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "fcs", "error": "1"}).Set(float64(switchPortStats.Result.TxFcs))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "late", "error": "1"}).Set(float64(switchPortStats.Result.TxLate))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "multiple", "error": "1"}).Set(float64(switchPortStats.Result.TxMultiple))
+					switchPortPacketsGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "single", "error": "1"}).Set(float64(switchPortStats.Result.TxSingle))
+
+					switchPortPacketsTotalGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx"}).Set(float64(switchPortStats.Result.RxGoodPackets))
+					switchPortPacketsTotalGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx"}).Set(float64(switchPortStats.Result.TxPackets))
+
+					switchPortBytesGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "bad"}).Set(float64(switchPortStats.Result.RxBadBytes))
+					switchPortBytesGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx", "type": "good"}).Set(float64(switchPortStats.Result.RxGoodBytes))
+					switchPortBytesGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx", "type": "total"}).Set(float64(switchPortStats.Result.TxBytes))
+
+					switchPortPauseGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx"}).Set(float64(switchPortStats.Result.RxPause))
+					switchPortPauseGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx"}).Set(float64(switchPortStats.Result.TxPause))
+
+					switchPortPacketsRateGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx"}).Set(float64(switchPortStats.Result.RxPacketsRate))
+					switchPortPacketsRateGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx"}).Set(float64(switchPortStats.Result.TxPacketsRate))
+
+					switchPortBytesRateGauges.With(prometheus.Labels{"name": port.Name, "direction": "rx"}).Set(float64(switchPortStats.Result.RxBytesRate))
+					switchPortBytesRateGauges.With(prometheus.Labels{"name": port.Name, "direction": "tx"}).Set(float64(switchPortStats.Result.TxBytesRate))
+				}
 			}
 
 			time.Sleep(10 * time.Second)

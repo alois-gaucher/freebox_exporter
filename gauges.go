@@ -254,4 +254,67 @@ var (
 			"name", // rx_bytes|tx_bytes
 		},
 	)
+
+	switchPortPacketsGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_packets",
+		},
+		[]string{
+			"name",
+			"direction",
+			"type",
+			"error",
+		},
+	)
+
+	switchPortPacketsTotalGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_packets_total",
+		},
+		[]string{
+			"name",
+			"direction",
+		},
+	)
+
+	switchPortBytesGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_bytes",
+		},
+		[]string{
+			"name",
+			"direction",
+			"type",
+		},
+	)
+
+	switchPortBytesRateGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_bytes_rate",
+		},
+		[]string{
+			"name",
+			"direction",
+		},
+	)
+
+	switchPortPacketsRateGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_packets_rate",
+		},
+		[]string{
+			"name",
+			"direction",
+		},
+	)
+
+	switchPortPauseGauges = promauto.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "freebox_switch_port_pause",
+		},
+		[]string{
+			"name",
+			"direction",
+		},
+	)
 )

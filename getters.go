@@ -87,3 +87,21 @@ func getVpnServer(authInf *authInfo, pr *postRequest, xSessionToken *string) (vp
 	}
 	return vpnServerResp, nil
 }
+
+func getSwitchStatus(authInf *authInfo, pr *postRequest, xSessionToken *string) (switchStatus, error) {
+	switchStatusResp := switchStatus{}
+	err := getApiData(authInf, pr, xSessionToken, &switchStatusResp, nil)
+	if err != nil {
+		return switchStatus{}, err
+	}
+	return switchStatusResp, nil
+}
+
+func getSwitchPort(authInf *authInfo, pr *postRequest, xSessionToken *string) (switchPort, error) {
+	switchPortResp := switchPort{}
+	err := getApiData(authInf, pr, xSessionToken, &switchPortResp, nil)
+	if err != nil {
+		return switchPort{}, err
+	}
+	return switchPortResp, nil
+}
