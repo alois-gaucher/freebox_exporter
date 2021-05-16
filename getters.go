@@ -14,16 +14,16 @@ import (
 
 var (
 	apiErrors = map[string]error{
-		"invalid_token":           errors.New("The app token you are trying to use is invalid or has been revoked"),
-		"insufficient_rights":     errors.New("Your app permissions does not allow accessing this API"),
-		"denied_from_external_ip": errors.New("You are trying to get an app_token from a remote IP"),
-		"invalid_request":         errors.New("Your request is invalid"),
-		"ratelimited":             errors.New("Too many auth error have been made from your IP"),
-		"new_apps_denied":         errors.New("New application token request has been disabled"),
+		"invalid_token":           errors.New("the app token you are trying to use is invalid or has been revoked"),
+		"insufficient_rights":     errors.New("your app permissions does not allow accessing this API"),
+		"denied_from_external_ip": errors.New("you are trying to get an app_token from a remote IP"),
+		"invalid_request":         errors.New("your request is invalid"),
+		"ratelimited":             errors.New("too many auth error have been made from your IP"),
+		"new_apps_denied":         errors.New("new application token request has been disabled"),
 		"apps_denied":             errors.New("API access from apps has been disabled"),
-		"internal_error":          errors.New("Internal error"),
-		"db_error":                errors.New("Oops, the database you are trying to access doesn't seem to exist"),
-		"nodev":                   errors.New("Invalid interface"),
+		"internal_error":          errors.New("internal error"),
+		"db_error":                errors.New("the database you are trying to access doesn't seem to exist"),
+		"nodev":                   errors.New("invalid interface"),
 	}
 )
 

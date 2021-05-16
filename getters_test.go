@@ -150,8 +150,8 @@ func TestGetDsl(t *testing.T) {
 	}
 
 	getDslResult, err = getDsl(ai, errorPR, &mySessionToken)
-	if err.Error() != "Your app permissions does not allow accessing this API" {
-		t.Error("Expected Your app permissions does not allow accessing this API, but go", err)
+	if err.Error() != "your app permissions does not allow accessing this API" {
+		t.Error("Expected your app permissions does not allow accessing this API, but go", err)
 	}
 
 	if len(getDslResult) != 0 {
@@ -238,8 +238,8 @@ func TestGetTemp(t *testing.T) {
 	}
 
 	getTempResult, err = getTemp(ai, errorPR, &mySessionToken)
-	if err.Error() != "You are trying to get an app_token from a remote IP" {
-		t.Error("Expected You are trying to get an app_token from a remote IP, but go", err)
+	if err.Error() != "you are trying to get an app_token from a remote IP" {
+		t.Error("Expected you are trying to get an app_token from a remote IP, but go", err)
 	}
 
 	if len(getTempResult) != 0 {
@@ -327,8 +327,8 @@ func TestGetNet(t *testing.T) {
 	}
 
 	getNetResult, err = getNet(ai, errorPR, &mySessionToken)
-	if err.Error() != "New application token request has been disabled" {
-		t.Error("Expected New application token request has been disabled, but got", err)
+	if err.Error() != "new application token request has been disabled" {
+		t.Error("Expected new application token request has been disabled, but got", err)
 	}
 
 	if len(getNetResult) != 0 {
@@ -501,8 +501,8 @@ func TestGetLan(t *testing.T) {
 	}
 
 	lanAvailable, err = getLan(ai, errorPR, &mySessionToken)
-	if err.Error() != "Too many auth error have been made from your IP" {
-		t.Error("Expected Too many auth error have been made from your IP, but got", err)
+	if err.Error() != "too many auth error have been made from your IP" {
+		t.Error("Expected too many auth error have been made from your IP, but got", err)
 	}
 
 }
