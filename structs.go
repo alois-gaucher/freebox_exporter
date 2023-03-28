@@ -308,8 +308,9 @@ type postRequest struct {
 
 // https://dev.freebox.fr/sdk/os/vpn/
 type vpnServer struct {
-	Success bool `json:"success"`
+	apiResponse
 	Result  []struct {
+		Success 	  bool   `json:"success"`
 		RxBytes       int64  `json:"rx_bytes,omitempty"`
 		Authenticated bool   `json:"authenticated,omitempty"`
 		TxBytes       int64  `json:"tx_bytes,omitempty"`
