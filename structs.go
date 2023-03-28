@@ -154,8 +154,9 @@ type freeplugMember struct {
 	EthSpeed      int    `json:"eth_speed"`
 	Inative       int    `json:"inactive"`
 	NetID         string `json:"net_id"`
-	RxRate        int    `json:"rx_rate"`
-	TxRate        int    `json:"tx_rate"`
+	RxRate        int64  `json:"rx_rate"`
+	TxRate        int64  `json:"tx_rate"`
+	Model         string `json:"model"`
 }
 
 // https://dev.freebox.fr/sdk/os/lan/
@@ -264,11 +265,11 @@ type wifiStation struct {
 	MAC                string `json:"mac,omitempty"`
 	State              string `json:"state,omitempty"`
 	Inactive           int    `json:"inactive,omitempty"`
-	RXBytes            int    `json:"rx_bytes,omitempty"`
-	TXBytes            int    `json:"tx_bytes,omitempty"`
+	RXBytes            int64  `json:"rx_bytes,omitempty"`
+	TXBytes            int64  `json:"tx_bytes,omitempty"`
 	ConnectionDuration int    `json:"conn_duration,omitempty"`
-	TXRate             int    `json:"tx_rate,omitempty"`
-	RXRate             int    `json:"rx_rate,omitempty"`
+	TXRate             int64  `json:"tx_rate,omitempty"`
+	RXRate             int64  `json:"rx_rate,omitempty"`
 	Signal             int    `json:"signal,omitempty"`
 }
 
@@ -307,11 +308,11 @@ type postRequest struct {
 
 // https://dev.freebox.fr/sdk/os/vpn/
 type vpnServer struct {
-	apiResponse
-	Result []struct {
-		RxBytes       int    `json:"rx_bytes,omitempty"`
+	Success bool `json:"success"`
+	Result  []struct {
+		RxBytes       int64  `json:"rx_bytes,omitempty"`
 		Authenticated bool   `json:"authenticated,omitempty"`
-		TxBytes       int    `json:"tx_bytes,omitempty"`
+		TxBytes       int64  `json:"tx_bytes,omitempty"`
 		User          string `json:"user,omitempty"`
 		ID            string `json:"id,omitempty"`
 		Vpn           string `json:"vpn,omitempty"`

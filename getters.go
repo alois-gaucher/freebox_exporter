@@ -35,6 +35,28 @@ func getLan(authInf *authInfo, pr *postRequest, xSessionToken *string) ([]lanHos
 }
 
 func getFreeplug(authInf *authInfo, pr *postRequest, xSessionToken *string) (freeplug, error) {
+	if _, err := setFreeboxToken(authInf, xSessionToken); err != nil {
+		return freeplug{}, err
+	}
+
+	client := http.Client{}
+	req, err := http.NewRequest(pr.method, pr.url, nil)
+	if err != nil {
+		return freeplug{}, err
+	}
+	req.Header.Add(pr.header, *xSessionToken)
+	resp, err := client.Do(req)
+	if err != nil {
+		return freeplug{}, err
+	}
+	if resp.StatusCode == 404 {
+		return freeplug{}, errors.New(resp.Status)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return freeplug{}, err
+	}
+
 	freeplugResp := freeplug{}
 	err := getApiData(authInf, pr, xSessionToken, &freeplugResp, nil)
 	if err != nil {
