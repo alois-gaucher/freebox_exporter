@@ -32,8 +32,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v4
         with:
-          context: .
-          file: ./Dockerfile-amd64
+          file: Dockerfile-amd64
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/freebox-exporter:amd64
       - 
