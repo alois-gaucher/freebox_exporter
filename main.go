@@ -199,8 +199,8 @@ func main() {
 					SfpSerial := connectionFtthStats.Result.SfpSerial
 					SfpPresent := connectionFtthStats.Result.SfpPresent
 
-					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 1000)
-					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 1000)
+					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 100)
+					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 100)
 
 					if SfpHasPowerReport {
 						connectionFtthSfpHasPowerReportGauge.WithLabelValues(SfpSerial).Set(float64(1))
