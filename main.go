@@ -68,6 +68,12 @@ func main() {
 		header: "X-Fbx-App-Auth",
 	}
 
+	myConnectionFtthRequest := &postRequest{
+		method: "GET",
+		url:    mafreebox + "api/v4/connection/ftth/",
+		header: "X-Fbx-App-Auth",
+	}
+
 	myFreeplugRequest := &postRequest{
 		method: "GET",
 		url:    mafreebox + "api/v4/freeplug/",
