@@ -125,6 +125,21 @@ type connectionXdsl struct {
 	} `json:"result"`
 }
 
+type connectionFtth struct {
+	apiResponse
+	Result struct {
+		SfpPresent         bool   `json:"sfp_present,omitempty"`
+		SfpAlimOk		   bool   `json:"sfp_alim_ok,omitempty"`
+		SfpHasPowerReport  bool   `json:"sfp_has_power_report,omitempty"`
+		SfpHasSignal 	   bool   `json:"sfp_has_signal,omitempty"`
+		Link               bool   `json:"link,omitempty"`
+		SfpSerial 		   string `json:"sfp_serial,omitempty"`
+		SfpVendor          string `json:"sfp_vendor,omitempty"`
+		SfpPwrTx		   int64  `json:"sfp_pwr_tx,omitempty"`
+		SfpPwrRx		   int64  `json:"sfp_pwr_rx,omitempty"`
+	} `json:"result,omitempty"`
+}
+
 type database struct {
 	DB        string   `json:"db"`
 	DateStart int      `json:"date_start,omitempty"`
