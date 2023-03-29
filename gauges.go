@@ -63,6 +63,15 @@ var (
 		},
 	)
 
+	// connectionFtth
+	connectionFtthRxPwrGauge = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_rx_pwr_decibels",
+	})
+
+	connectionFtthTxPwrGauge = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_tx_pwr_decibels",
+	})
+
 	// RRD dsl [unstable]
 	rateUpGauge = promauto.NewGauge(prometheus.GaugeOpts{
 		Name: "freebox_dsl_up_bytes",

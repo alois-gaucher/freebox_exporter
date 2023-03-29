@@ -180,6 +180,24 @@ func main() {
 					snrUpGauge.Set(float64(getDslResult[2]))
 					snrDownGauge.Set(float64(getDslResult[3]))
 				}
+			} else {
+				// connectionFtth metrics
+				connectionFtthStats, err := getConnectionFtth(myAuthInfo, myConnectionFtthRequest, &mySessionToken)
+				if err != nil {
+					log.Printf("An error occured with connectionFtth metrics: %v", err)
+				}
+
+				if connectionFtthStats.Success {
+					SfpPwrRx := connectionFtthStats.Result.SfpPwrRx
+					SfpPwrTx := connectionFtthStats.Result.SfpPwrTx
+					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 10)
+					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 10)
+				}
+
+				// getFtthResult, err := getFtth(myAuthInfo, myPostRequest, &mySessionToken)
+				// if err != nil {
+				// 	log.Printf("An error occured with FTTH metrics: %v", err)
+				// }
 			}
 
 			// freeplug metrics

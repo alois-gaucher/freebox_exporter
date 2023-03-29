@@ -137,7 +137,7 @@ type connectionFtth struct {
 		SfpVendor          string `json:"sfp_vendor,omitempty"`
 		SfpPwrTx		   int64  `json:"sfp_pwr_tx,omitempty"`
 		SfpPwrRx		   int64  `json:"sfp_pwr_rx,omitempty"`
-	} `json:"result,omitempty"`
+	} `json:"result"`
 }
 
 type database struct {
