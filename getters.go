@@ -9,8 +9,21 @@ func getConnectionXdsl(authInf *authInfo, pr *postRequest, xSessionToken *string
 	return connectionXdslResp, nil
 }
 
+func getConnectionFtth(authInf *authInfo, pr *postRequest, xSessionToken *string) (connectionFtth, error) {
+	connectionFtthResp := connectionFtth{}
+	err := getApiData(authInf, pr, xSessionToken, &connectionFtthResp, nil)
+	if err != nil {
+		return connectionFtth{}, err
+	}
+	return connectionFtthResp, nil
+}
+
 func getDsl(authInf *authInfo, pr *postRequest, xSessionToken *string) ([]int64, error) {
 	return getRrdData(authInf, pr, xSessionToken, "dsl", []string{"rate_up", "rate_down", "snr_up", "snr_down"})
+}
+
+func getFtth(authInf *authInfo, pr *postRequest, xSessionToken *string) ([]int64, error) {
+	return getRrdData(authInf, pr, xSessionToken, "ftth", []string{"rate_up", "rate_down", "snr_up", "snr_down"})
 }
 
 func getTemp(authInf *authInfo, pr *postRequest, xSessionToken *string) ([]int64, error) {
