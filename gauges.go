@@ -64,18 +64,44 @@ var (
 	)
 
 	// connectionFtth
-	connectionFtthStatusUptimeGauges = promauto.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "freebox_connection_ftth_status_uptime_seconds_total",
+
+	connectionFtthSfpHasPowerReportGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_has_power_report",
 	},
 		[]string{
-			"sfp_model",
-			"sfp_vendor",
-			"sfp_serial",
-			"sfp_has_power_report",
-			"sfp_has_signal",
-			"link",
-			"sfp_alim_ok",
-			"sfp_present",
+			"id",
+		},
+	)
+
+	connectionFtthSfpHasSignalGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_has_signal",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthLinkGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_link",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthSfpAlimOkGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_alim_ok",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthSfpPresentGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_present",
+	},
+		[]string{
+			"id",
 		},
 	)
 

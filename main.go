@@ -190,8 +190,8 @@ func main() {
 				if connectionFtthStats.Success {
 					SfpHasPowerReport := connectionFtthStats.Result.SfpHasPowerReport
 					SfpHasSignal := connectionFtthStats.Result.SfpHasSignal
-					SfpModel := connectionFtthStats.Result.SfpModel
-					SfpVendor := connectionFtthStats.Result.SfpVendor
+					//SfpModel := connectionFtthStats.Result.SfpModel
+					//SfpVendor := connectionFtthStats.Result.SfpVendor
 					SfpPwrRx := connectionFtthStats.Result.SfpPwrRx
 					SfpPwrTx := connectionFtthStats.Result.SfpPwrTx
 					Link := connectionFtthStats.Result.Link
@@ -199,15 +199,39 @@ func main() {
 					SfpSerial := connectionFtthStats.Result.SfpSerial
 					SfpPresent := connectionFtthStats.Result.SfpPresent
 
-					connectionFtthStatusUptimeGauges.With(prometheus.Labels{"sfp_model": SfpModel, "sfp_vendor": SfpVendor, "sfp_serial": SfpSerial, "sfp_present": strconv.FormatBool(SfpPresent), "sfp_has_power_report": strconv.FormatBool(SfpHasPowerReport), "sfp_has_signal": strconv.FormatBool(SfpHasSignal), "sfp_alim_ok": strconv.FormatBool(SfpAlimOk), "link": strconv.FormatBool(Link)}).Set(float64(1))
 					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 100)
 					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 100)
-				}
 
-				// getFtthResult, err := getFtth(myAuthInfo, myPostRequest, &mySessionToken)
-				// if err != nil {
-				// 	log.Printf("An error occured with FTTH metrics: %v", err)
-				// }
+					if SfpHasPowerReport {
+						connectionFtthSfpHasPowerReportGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpHasPowerReportGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpHasSignal {
+						connectionFtthSfpHasSignalGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpHasSignalGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if Link {
+						connectionFtthLinkGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthLinkGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpAlimOk {
+						connectionFtthSfpAlimOkGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpAlimOkGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpPresent {
+						connectionFtthSfpPresentGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpPresentGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+				}
 			}
 
 			// freeplug metrics
