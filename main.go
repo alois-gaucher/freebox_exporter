@@ -68,6 +68,12 @@ func main() {
 		header: "X-Fbx-App-Auth",
 	}
 
+	myConnectionFtthRequest := &postRequest{
+		method: "GET",
+		url:    mafreebox + "api/v4/connection/ftth/",
+		header: "X-Fbx-App-Auth",
+	}
+
 	myFreeplugRequest := &postRequest{
 		method: "GET",
 		url:    mafreebox + "api/v4/freeplug/",
@@ -173,6 +179,58 @@ func main() {
 					rateDownGauge.Set(float64(getDslResult[1]))
 					snrUpGauge.Set(float64(getDslResult[2]))
 					snrDownGauge.Set(float64(getDslResult[3]))
+				}
+			} else {
+				// connectionFtth metrics
+				connectionFtthStats, err := getConnectionFtth(myAuthInfo, myConnectionFtthRequest, &mySessionToken)
+				if err != nil {
+					log.Printf("An error occured with connectionFtth metrics: %v", err)
+				}
+
+				if connectionFtthStats.Success {
+					SfpHasPowerReport := connectionFtthStats.Result.SfpHasPowerReport
+					SfpHasSignal := connectionFtthStats.Result.SfpHasSignal
+					//SfpModel := connectionFtthStats.Result.SfpModel
+					//SfpVendor := connectionFtthStats.Result.SfpVendor
+					SfpPwrRx := connectionFtthStats.Result.SfpPwrRx
+					SfpPwrTx := connectionFtthStats.Result.SfpPwrTx
+					Link := connectionFtthStats.Result.Link
+					SfpAlimOk := connectionFtthStats.Result.SfpAlimOk
+					SfpSerial := connectionFtthStats.Result.SfpSerial
+					SfpPresent := connectionFtthStats.Result.SfpPresent
+
+					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 100)
+					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 100)
+
+					if SfpHasPowerReport {
+						connectionFtthSfpHasPowerReportGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpHasPowerReportGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpHasSignal {
+						connectionFtthSfpHasSignalGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpHasSignalGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if Link {
+						connectionFtthLinkGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthLinkGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpAlimOk {
+						connectionFtthSfpAlimOkGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpAlimOkGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
+
+					if SfpPresent {
+						connectionFtthSfpPresentGauge.WithLabelValues(SfpSerial).Set(float64(1))
+					} else {
+						connectionFtthSfpPresentGauge.WithLabelValues(SfpSerial).Set(float64(0))
+					}
 				}
 			}
 

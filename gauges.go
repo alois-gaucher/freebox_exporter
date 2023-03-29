@@ -63,6 +63,56 @@ var (
 		},
 	)
 
+	// connectionFtth
+
+	connectionFtthSfpHasPowerReportGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_has_power_report",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthSfpHasSignalGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_has_signal",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthLinkGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_link",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthSfpAlimOkGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_alim_ok",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthSfpPresentGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_present",
+	},
+		[]string{
+			"id",
+		},
+	)
+
+	connectionFtthRxPwrGauge = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_rx_pwr_decibels",
+	})
+
+	connectionFtthTxPwrGauge = promauto.NewGauge(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_sfp_tx_pwr_decibels",
+	})
+
 	// RRD dsl [unstable]
 	rateUpGauge = promauto.NewGauge(prometheus.GaugeOpts{
 		Name: "freebox_dsl_up_bytes",
