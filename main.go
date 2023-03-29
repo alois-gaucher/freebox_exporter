@@ -190,8 +190,8 @@ func main() {
 				if connectionFtthStats.Success {
 					SfpPwrRx := connectionFtthStats.Result.SfpPwrRx
 					SfpPwrTx := connectionFtthStats.Result.SfpPwrTx
-					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 10)
-					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 10)
+					connectionFtthRxPwrGauge.Set(float64(SfpPwrRx) / 100)
+					connectionFtthTxPwrGauge.Set(float64(SfpPwrTx) / 100)
 				}
 
 				// getFtthResult, err := getFtth(myAuthInfo, myPostRequest, &mySessionToken)
