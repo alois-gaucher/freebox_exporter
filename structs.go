@@ -133,6 +133,7 @@ type connectionFtth struct {
 		SfpHasPowerReport  bool   `json:"sfp_has_power_report,omitempty"`
 		SfpHasSignal 	   bool   `json:"sfp_has_signal,omitempty"`
 		Link               bool   `json:"link,omitempty"`
+		SfpModel 		   string `json:"sfp_model,omitempty"`
 		SfpSerial 		   string `json:"sfp_serial,omitempty"`
 		SfpVendor          string `json:"sfp_vendor,omitempty"`
 		SfpPwrTx		   int64  `json:"sfp_pwr_tx,omitempty"`

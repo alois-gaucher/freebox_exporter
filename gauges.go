@@ -64,6 +64,21 @@ var (
 	)
 
 	// connectionFtth
+	connectionFtthStatusUptimeGauges = promauto.NewGaugeVec(prometheus.GaugeOpts{
+		Name: "freebox_connection_ftth_status_uptime_seconds_total",
+	},
+		[]string{
+			"sfp_model",
+			"sfp_vendor",
+			"sfp_serial",
+			"sfp_has_power_report",
+			"sfp_has_signal",
+			"link",
+			"sfp_alim_ok",
+			"sfp_present",
+		},
+	)
+
 	connectionFtthRxPwrGauge = promauto.NewGauge(prometheus.GaugeOpts{
 		Name: "freebox_connection_ftth_sfp_rx_pwr_decibels",
 	})
